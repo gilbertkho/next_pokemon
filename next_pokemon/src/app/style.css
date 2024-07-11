@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.big-title{
+    font-weight: 700;
+    size: 24px;
+}
+
+.heading{
+    font-weight:  600;
+    size: 18px;
+}
+
+.normal-text{
+    font-weight: 500;
+    size: 14px;
+}
+
+.dashboard-btn{
+    font-weight: 600;
+    font-size: 24px;
+    border-radius: 10px;
+    padding: 12px 15px;
+}
