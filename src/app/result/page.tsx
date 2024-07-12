@@ -5,16 +5,18 @@ import Axios from '../../axios/axios';
 import { toast } from 'react-toastify';
 import BackButton from "../components/BackButton";
 import { ResponseContext, responseContextType } from "../context/ResponseContext";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
 
 interface contentInterface {
     data: any
 }
 
-const Result = (pokemon:string) =>{
+const Result = (info:any) =>{
     const router = useRouter();
     const [content, setContent] = useState<contentInterface>();
-    //let {searchParams} = pokemon;
+    const [hasMore, setHasMore] = useState(true);
+    let {searchParams} = info;
 
     /*const showPokemon = async(name) => {
        
@@ -23,8 +25,7 @@ const Result = (pokemon:string) =>{
     const {responseResult, setResponseResult} = useContext(ResponseContext) as responseContextType;
 
     useEffect(() => {
-        //showPokemon(searchParams.pokemon);
-        console.log(responseResult)
+        console.log("SEARHC PARAMS", searchParams)
         if(!responseResult){
             router.push('/');
             return;
@@ -33,8 +34,33 @@ const Result = (pokemon:string) =>{
 
         toast.dismiss();
         setContent(result);
-        console.log('result', responseResult)
     },[]);
+
+    const fetchData = async() => {
+        try{
+            let params = content &&  content.data.next ? content.data.next.split("?") : null;
+            if(params){
+                let res = await Axios.get(`${searchParams.result}?${params[1]}`);
+                let cont = content ? content.data.results : null;
+                cont = cont.concat(res.data.results);
+                setContent((prevState) => {
+                    return {
+                        ...prevState,
+                        data: {
+                            count: res.data.count,
+                            next: res.data.next,
+                            previous: res.data.previous,
+                            results: cont
+                        }
+                    }
+                });
+                res.data.next ? setHasMore(true) : setHasMore(false);
+            }
+        }
+        catch(err:any){
+            toast.error(err.message , {theme: "colored"})
+        }
+    }
 
     useEffect(() => {
         console.log('CONTENT', content);
@@ -43,61 +69,33 @@ const Result = (pokemon:string) =>{
     return(
         <div className={"h-screen p-[16px] max-w-[1280px] bg-[transparent] mx-auto"}>
             <BackButton/>
-            <div className={"mx-auto"}>
+            <div className={"flex justify-around"}>
                 {
                     content ?
-                    <div className={"card-poke blue-poke text-white mx-auto"}>
-                        <span className={"heading"}>{content.data.name.toUpperCase()}</span>
-                        <Image className={"mx-auto"} width="100" height="100" src={content.data.sprites.other.dream_world.front_default} alt={content.data.name} />
+                    <InfiniteScroll
+                        dataLength={content.data.results.length}
+                        next={fetchData}
+                        hasMore={hasMore}
+                        loader
+                        >
                         {
-                            content.data.abilities.length > 0 ?
-                            <>
-                                <span className={"heading"}>
-                                    Abilities
-                                </span>
-                                <div className={"max-h-[124px] bg-[#c7a008] rounded-[20px] p-[6px]"}>
-                                    <div className={"grid grid-cols-2 gap-4 max-h-[100px] overflow-auto bg-[#c7a008] rounded-[20px] p-[6px]"}>
-                                        {
-                                            content.data.abilities.map((abi:any, idx:number) => {
-                                                return (
-                                                    <div key={idx}>
-                                                        -{abi.ability.name}
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                </div>
-                            </>
-                            :
-                            null
-
-                        }
-                        {
-                            content.data.moves.length > 0 ?
-                            <>
-                                <span className={"heading mt-[12px]"}>
-                                    Moves
-                                </span>
-                                <div className={"max-h-[124px] bg-[#c7a008] rounded-[20px] p-[6px]"}>
-                                    <div className={"grid grid-cols-2 gap-4 max-h-[100px] overflow-auto bg-[#c7a008] rounded-[20px]"}>
-                                    {
-                                        content.data.moves.map((abi:any, idx:number) => {
-                                            return (
-                                                <div key={idx}>
-                                                    -{abi.move.name}
-                                                </div>
-                                            )
-                                        })
+                            content ?
+                            content.data.results.map((res:any, idx:number) => {
+                                return(
+                                <div className={"card-poke blue-poke text-white mx-auto"} key={idx}>
+                                    {searchParams.result === 'pokemon' && 
+                                    <Image
+                                    width="100" height="100" 
+                                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${res.url.split('/')[6]}.png`}
+                                    alt={""} />
                                     }
-                                    </div>
+                                    {res.name}
                                 </div>
-                                
-                            </>
-                            :
-                            null
+                                )
+                            })
+                            : null
                         }
-                    </div>
+                    </InfiniteScroll>
                     : null
                 }
             </div>

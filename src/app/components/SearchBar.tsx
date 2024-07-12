@@ -8,7 +8,7 @@ import { ResponseContext, responseContextType } from "../context/ResponseContext
 
 const SearchBar = () =>{
     const router =  useRouter();
-    let timer    = null; //typing timer
+    let timer:any    = null; //typing timer
     const {responseResult, setResponseResult} = useContext(ResponseContext);
 
     const searchPokemon = (e:ChangeEvent) => {
@@ -23,9 +23,9 @@ const SearchBar = () =>{
                 try{
                     let res = await Axios.get(`pokemon/${e.target.value}`);
                     setResponseResult(res);
-                    router.push(`/result?pokemon=${e.target.value}`);
+                    router.push(`/detail?pokemon=${e.target.value}`);
                 }
-                catch(err){
+                catch(err:any){
                     toast.error(err.message , {theme: "colored"})
                 }
             }

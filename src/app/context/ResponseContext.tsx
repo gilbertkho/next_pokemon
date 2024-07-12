@@ -4,7 +4,7 @@ import React, { createContext, useState, ReactNode } from 'react';
 // Define the shape of the context data
 export interface responseContextType {
   responseResult: object | null;
-  setResponseResult: (response: object | null) => void;
+  setResponseResult: (response: any | null) => void;
 }
 
 // Create the context with a default value
