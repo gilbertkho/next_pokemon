@@ -2,9 +2,9 @@
 import React, { createContext, useState, ReactNode } from 'react';
 
 // Define the shape of the context data
-interface responseContextType {
-  response: string | null;
-  setResponse: (response: string | null) => void;
+export interface responseContextType {
+  responseResult: object | null;
+  setResponseResult: (response: object | null) => void;
 }
 
 // Create the context with a default value
@@ -16,10 +16,10 @@ interface responseProviderProps {
 
 // Create a provider component
 const ResponseProvider: React.FC<responseProviderProps> = ({ children }) => {
-  const [response, setResponse] = useState<string | null>(null);
+  const [responseResult, setResponseResult] = useState<object | null>(null);
 
   return (
-    <ResponseContext.Provider value={{ response, setResponse }}>
+    <ResponseContext.Provider value={{ responseResult, setResponseResult }}>
       {children}
     </ResponseContext.Provider>
   );

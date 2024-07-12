@@ -4,11 +4,12 @@ import { toast, ToastContainer } from "react-toastify";
 import Axios from '../../axios/axios';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ResponseContext } from "../context/contextProvider";
+import { ResponseContext, responseContextType } from "../context/ResponseContext";
 
 const SearchBar = () =>{
     const router =  useRouter();
     let timer    = null; //typing timer
+    const {responseResult, setResponseResult} = useContext(ResponseContext);
 
     const searchPokemon = (e:ChangeEvent) => {
        if(timer){
@@ -21,7 +22,8 @@ const SearchBar = () =>{
             if(e.target.value != ''){
                 try{
                     let res = await Axios.get(`pokemon/${e.target.value}`);
-                    
+                    setResponseResult(res);
+                    router.push(`/result?pokemon=${e.target.value}`);
                 }
                 catch(err){
                     toast.error(err.message , {theme: "colored"})
@@ -33,7 +35,7 @@ const SearchBar = () =>{
     return ( 
         <div className={'flex flex-col'}>
             <label htmlFor="search_pokemon">Search Pokémon ⤵</label>
-            <input className={'text-[24px] rounded-[10px] py-[12px] px-[15px] outline-none bg-[#f5f5f5]'} 
+            <input className={'text-[24px] rounded-[30px] py-[12px] px-[15px] outline-none bg-[#f5f5f5]'} 
             id="search_pokemon" 
             type='text' 
             placeholder="Gotta Search 'Em All..."
