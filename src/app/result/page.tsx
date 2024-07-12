@@ -4,15 +4,15 @@ import Axios from '../../axios/axios';
 import { toast } from 'react-toastify';
 import BackButton from "../components/BackButton";
 
-const Result = (pokemon:string) => {
-    let {searchParams} = pokemon;
+const Result = (pokemon:string) =>{
+    //let {searchParams} = pokemon;
 
-    const showPokemon = async(name) => {
+    /*const showPokemon = async(name) => {
        
-    }
+    }*/
 
     useEffect(() => {
-        showPokemon(searchParams.pokemon);
+        //showPokemon(searchParams.pokemon);
     },[]);
 
     return(
