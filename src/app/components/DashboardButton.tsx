@@ -1,9 +1,9 @@
 'use client'
-import Axios from '../axios/axios';
+import Axios from '../../axios/axios';
 import React, { useEffect } from "react";
 
 
-function DashboardButton () {
+const DashboardButton = () => {
 
     const getAllPokemon = async() => {
         try{
@@ -23,7 +23,7 @@ function DashboardButton () {
         <div className={"my-[16px]"}>
             <div className="grid grid-cols-12 grid-rows-3 gap-4">
                 <div className={"col-span-7 dashboard-btn bg-[#f5f5f5]"}>
-                    Pokemon
+                    Pokémon
                 </div>
                 <div className={"col-span-5 dashboard-btn bg-[#f5f5f5]"}>
                     Abilities

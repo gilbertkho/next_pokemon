@@ -1,6 +1,6 @@
 import Image from "next/image";
-import SearchBar from "../components/SearchBar";
-import DashboardButton from "../components/DashboardButton";
+import SearchBar from "./components/SearchBar";
+import DashboardButton from "./components/DashboardButton";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
         <h1 className={"text-[48px] font-[700] m-[0]"}>
           PokéDex
         </h1>
-        <small>Dive more into pokémon world!</small>
+        <small>Dive more into Pokémon world!</small>
       </div>
       <SearchBar/>
       <DashboardButton/>
