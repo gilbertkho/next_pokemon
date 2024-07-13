@@ -20,6 +20,28 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## How To Use aka Instruction.
+Search and View:
+- Search the desired Pokemon from the search bar on the first landing page, then you will be redricted into Pokemon detail page.
+- To view several categories detail related to Pokemon, press the button underneath the search bar from the landing page.
+Pokemon Detail Page:
+- To view the Pokemon detail, press the pokemon button from landing view. You will then redirected into pokemon result page.
+- From the Pokemon result page, press one of your desired pokemon as shown in the list. You will then redirected into pokemon detail page.
+Catching and Naming Pokemon:
+- To catch a Pokemon, go to the desired Pokemon detail. Then, press the "Catch This Pokemon" button.
+- You will be asked to name your personal catched Pokemon.
+- You can see your catched at the top right corner in the result page and detail page.
+
+All API credited to:
+https://pokeapi.co/docs/v2.
+
+Libarary Used:
+- react-hook-form
+- nextUI
+- react-toastify
+- react-infinite-scroll-component
+
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
