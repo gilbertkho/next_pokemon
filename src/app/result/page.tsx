@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Axios from '../../axios/axios';
 import { toast } from 'react-toastify';
 import BackButton from "../components/NavBar";
@@ -17,7 +17,7 @@ const Result = (category:any) =>{
     const [content, setContent] = useState<contentInterface>();
     const [hasMore, setHasMore] = useState(true);
     const [firstFetch,setFirstFetch] = useState(true);
-    let {searchParams} = category;
+    let searchParams = useSearchParams();
 
     const {responseResult, setResponseResult} = useContext(ResponseContext) as responseContextType;
 
@@ -25,7 +25,6 @@ const Result = (category:any) =>{
         try{
             let res = await Axios.get(`pokemon`);
             setContent(res);
-            console.log(res);
         }
         catch(err:any){
             toast.error(err.message , {theme: "colored"})
@@ -33,7 +32,7 @@ const Result = (category:any) =>{
     }
 
     useEffect(() => {
-        if(searchParams.category == 'pokemon'){
+        if(searchParams.get('category') == 'pokemon'){
             getData();
             return;
         }
@@ -64,7 +63,7 @@ const Result = (category:any) =>{
             let params = content && content.data.next ? content.data.next.split("?") : null;
             //console.log("params", params);
             if(params){
-                let res = await Axios.get(`${searchParams.category}?${params[1]}`);
+                let res = await Axios.get(`${searchParams.get('category')}?${params[1]}`);
                 let cont = content ? content.data.results : null;
                 cont = cont.concat(res.data.results);
                 setContent((prevState) => {
@@ -113,7 +112,7 @@ const Result = (category:any) =>{
                             content ?
                                 content.data.results.map((res:any, idx:number) => {
                                     return(
-                                        searchParams.category === 'pokemon' ?
+                                        searchParams.get('category') === 'pokemon' ?
                                             <div className={"card-poke w-full blue-poke text-white flex-row items-center justify-center heading"} key={idx} onClick={() => goToPokemon(res.name)}>
                                                 <Image
                                                 width="100" height="100" 
