@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ResponseProvider } from "./context/ResponseContext";
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,10 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-          <ResponseProvider>
-            <ToastContainer/>
-            {children}
-          </ResponseProvider>
+        <Suspense>
+            <ResponseProvider>
+              <ToastContainer/>
+              {children}
+            </ResponseProvider>
+        </Suspense>
       </body>
     </html>
   );
