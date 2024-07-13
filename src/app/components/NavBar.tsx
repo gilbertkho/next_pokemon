@@ -13,14 +13,19 @@ const NavBar = () => {
 
     const getPokemonInBag = () => {
         //localStorage.removeItem('catchedPokemon');
+        //get catched pokemon from localStorage
         let getStore = localStorage.getItem('catchedPokemon');
         if(getStore && getStore.length > 0){
+            //parsed the value from localStorage
             getStore = JSON.parse(getStore);
+            //set the value into state to be displayed in the modal
             setCatchedPokemon(getStore);
         }
         else{
+            //set state to null if no data from localStorage
             setCatchedPokemon([]);
         }
+        //open the modal
         onOpen();
     }
 

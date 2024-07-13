@@ -12,17 +12,19 @@ const SearchBar = () =>{
     const {responseResult, setResponseResult} = useContext(ResponseContext) as responseContextType;
 
     const searchPokemon = (e:ChangeEvent) => {
-       if(timer){
-            clearTimeout(timer);
-            timer = null;
-       }
+        if(timer){
+                clearTimeout(timer);
+                timer = null;
+        }
         timer = setTimeout(async() => {
-            //router.push(`/result?pokemon=${e.target.value}`);
-            //toast.info("finish typing", {position: "top-right"});
+            //engage function when user finish typing and typing value is not null
             if(e.target.value != ''){
                 try{
+                    //getting desired pokemon from user input
                     let res = await Axios.get(`pokemon/${e.target.value}`);
+                    //set the response in context
                     setResponseResult(res);
+                    //moving page to the pokemon detail page
                     router.push(`/detail?pokemon=${e.target.value}`);
                 }
                 catch(err:any){

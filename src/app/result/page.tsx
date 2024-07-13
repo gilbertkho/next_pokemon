@@ -21,6 +21,7 @@ const Result = (category:any) =>{
 
     const {responseResult, setResponseResult} = useContext(ResponseContext) as responseContextType;
 
+    //fetching data for pokemon category (fetched in this page to reload the pokemon list after the pokemon detail page)
     const getData = async() => {
         try{
             let res = await Axios.get(`pokemon`);
@@ -33,17 +34,21 @@ const Result = (category:any) =>{
 
     useEffect(() => {
         if(searchParams.get('category') == 'pokemon'){
+            //get pokemon data and return the function
             getData();
             return;
         }
         if(!responseResult){
+            //if result page is refresh (state is reloaded) redirect back to dashboard
             router.push('/');
             return;
         }
 
         let result:any = responseResult;
 
+        //prevent toast to appear after moving to this page
         toast.dismiss();
+        //get other category data except pokemon category
         setContent(result);
     },[]);
     

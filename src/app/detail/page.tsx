@@ -34,6 +34,7 @@ function Detail () {
     const onSubmit: SubmitHandler<Inputs> = (data) => catchPokemon();
 
     useEffect(() => {
+        //if detail page is refresh (state is reloaded) redirect back to dashboard
         if(!responseResult){
             router.push('/');
             return;
@@ -52,7 +53,9 @@ function Detail () {
     },[]);
 
     const catchPokemon = () => {
+        //get catched pokemon from localStorage
         let getStore:any = localStorage.getItem("catchedPokemon");
+        //check if pokebag exist and save the catched pokemon data to localStorage
         if(getStore && getStore.length > 0){
             getStore = JSON.parse(getStore);
             getStore.push({
@@ -71,6 +74,7 @@ function Detail () {
             localStorage.setItem('catchedPokemon', JSON.stringify(items));
         }
         toast.success('Pokemon Catched !', {theme: "colored"})
+        //close the modal
         onClose();
     }
 

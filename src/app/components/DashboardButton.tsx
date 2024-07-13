@@ -11,25 +11,24 @@ const DashboardButton = () => {
     const {responseResult, setResponseResult} = useContext(ResponseContext) as responseContextType;
 
     const getData = async(data:string) => {
+        //move immediately to result page when choosing pokemon category
         if(data == 'pokemon'){
             router.push(`/result?category=pokemon`)
             return;
         }
 
+        //fetch category data based on selected category
         try{
             let res = await Axios.get(`${data}`);
-            //console.log(res);
+            //save category response to context
             setResponseResult(res);
+            //moving page to result category
             router.push(`/result?category=${data}`);
         }
         catch(err:any){
             toast.error(err.message , {theme: "colored"})
         }
     }
-
-    useEffect(() => {
-        //getAllPokemon();
-    },[]);
 
     return(
         <div className={"my-[16px]"}>
