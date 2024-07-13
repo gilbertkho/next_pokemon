@@ -9,7 +9,7 @@ import { ResponseContext, responseContextType } from "../context/ResponseContext
 const SearchBar = () =>{
     const router =  useRouter();
     let timer:any    = null; //typing timer
-    const {responseResult, setResponseResult} = useContext(ResponseContext);
+    const {responseResult, setResponseResult} = useContext(ResponseContext) as responseContextType;
 
     const searchPokemon = (e:ChangeEvent) => {
        if(timer){
