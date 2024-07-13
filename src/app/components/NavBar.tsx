@@ -1,21 +1,32 @@
+'use client'
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faSuitcaseRolling } from "@fortawesome/free-solid-svg-icons";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { useEffect, useState } from "react";
 
 const NavBar = () => {
     const router = useRouter();
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [catchedPokemon, setCatchedPokemon] = useState<any>([]);
 
     const getPokemonInBag = () => {
         //localStorage.removeItem('catchedPokemon');
         let getStore = localStorage.getItem('catchedPokemon');
         if(getStore && getStore.length > 0){
-            console.log(JSON.parse(getStore));
+            getStore = JSON.parse(getStore);
+            setCatchedPokemon(getStore);
         }
         else{
-            console.log('NO POKEMON CATCHED!');
+            setCatchedPokemon([]);
         }
+        onOpen();
     }
+
+    useEffect(() => {
+        console.log(catchedPokemon)
+    },[catchedPokemon])
 
     return(
         <div className={"flex justify-between blue-poke rounded-[10px] p-[10px] mb-[12px]"}>
@@ -25,6 +36,52 @@ const NavBar = () => {
             <button onClick={getPokemonInBag}>
                 <FontAwesomeIcon icon={faSuitcaseRolling} color={'white'} size={"2x"}/>
             </button>
+            <Modal backdrop={"blur"} isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent className={"initial-blue-poke text-white rounded-[10px]"}>
+                {(onClose) => (
+                    <>
+                    <ModalHeader className="flex flex-col gap-1">Poke Bag</ModalHeader>
+                    <ModalBody>
+                        {
+                            catchedPokemon.length > 0 ?
+                            <table className="text-white">
+                                <thead className="border-b-[1px] border-[white]">
+                                    <tr>
+                                        <th className={"text-left"}>Name</th>
+                                        <th className={"text-left"}>Pokemon</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        catchedPokemon.map((cp:any,idx:number) => {
+                                            return(
+                                            <tr key={idx} className="border-b-[1px] border-[white]">
+                                                <td>{cp.name}</td>
+                                                <td>{cp.pokemon}</td>
+                                            </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
+                            </table>
+                            :
+                            <div className={"flex justify-center items-center text-white"}>
+                                No pokemon catched yet...
+                            </div>
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="danger" variant="light" onPress={onClose}>
+                        Close
+                        </Button>
+                        {/* <Button color="primary" onPress={onClose}>
+                        Action
+                        </Button> */}
+                    </ModalFooter>
+                    </>
+                )}
+                </ModalContent>
+            </Modal>
         </div>
     )
 }

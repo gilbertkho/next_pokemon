@@ -5,18 +5,33 @@ import Axios from '../../axios/axios';
 import { toast } from 'react-toastify';
 import BackButton from "../components/NavBar";
 import { ResponseContext, responseContextType } from "../context/ResponseContext";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import Image from "next/image";
 import colours from '../components/PokeColors';
+import { SubmitHandler, useForm } from "react-hook-form";
 
 interface contentInterface {
     data: any
 }
 
+interface selectedPokemon {
+    name:string,
+    pokemon:string,
+}
+
+interface Inputs {
+    name: string,
+};
+
 function Detail () {
     const router = useRouter();
+    const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
+    const [selectedPokemon, setSelectedPokemon] = useState<selectedPokemon>();
     const [content, setContent] = useState<contentInterface>();
-
     const {responseResult, setResponseResult} = useContext(ResponseContext) as responseContextType;
+    const {register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => catchPokemon();
 
     useEffect(() => {
         if(!responseResult){
@@ -24,28 +39,43 @@ function Detail () {
             return;
         }
         let result:any = responseResult;
+        setSelectedPokemon((prevState:any) => {
+            return {
+                ...prevState,
+                name: '',
+                pokemon: responseResult.data.name,
+            }
+        })
 
         toast.dismiss();
         setContent(result);
     },[]);
 
-    const catchPokemon = (name:string) => {
+    useEffect(() => {
+        console.log("selected", selectedPokemon);
+    },[selectedPokemon])
+
+    const catchPokemon = () => {
         let getStore:any = localStorage.getItem("catchedPokemon");
         if(getStore && getStore.length > 0){
             getStore = JSON.parse(getStore);
             getStore.push({
-                pokemon: name
+                name: selectedPokemon.name,
+                pokemon: selectedPokemon.pokemon,
             });
             localStorage.setItem('catchedPokemon', JSON.stringify(getStore));
         }
         else{
             let item = {
-                pokemon: name
+                name: selectedPokemon.name,
+                pokemon: selectedPokemon.pokemon
             }
             let items:Array<object> = [];
             items.push(item);
             localStorage.setItem('catchedPokemon', JSON.stringify(items));
         }
+        toast.success('Pokemon Catched !', {theme: "colored"})
+        onClose();
     }
 
     return (
@@ -94,7 +124,7 @@ function Detail () {
                             }
                             <div className={"flex flex-col items-center justify-center lg:w-[50%] gap-[8px]"}>
                                 <Image className={"lg:max-h-[150px] max-h-[200px]"} width="200" height="200" src={content.data.sprites.other.dream_world.front_default} alt={content.data.name} />
-                                <span className={`px-[10px] py-[3px] text-white rounded-[30px]`} onClick={() => catchPokemon(content.data.name)}>
+                                <span className={`px-[10px] py-[3px] text-white rounded-[30px]`} onClick={onOpen}>
                                     Catch This Pokémon    
                                 </span>
                             </div>
@@ -158,6 +188,38 @@ function Detail () {
                     </div>
                     : null
                 }
+                <Modal backdrop={"blur"} isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent className={"initial-blue-poke text-white rounded-[10px]"}>
+                {(onClose) => (
+                    <>
+                    <ModalHeader className="flex flex-col gap-1">Poke Bag</ModalHeader>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <ModalBody>
+                            <input {...register("name", { required: true })} className={"text-black"} defaultValue="" value={selectedPokemon.name}  onChange={(e) => {
+                                setSelectedPokemon(
+                                    (prevState:any) => { 
+                                        return{...prevState, 
+                                            name: e.target.value,
+                                            pokemon: selectedPokemon.pokemon
+                                        }
+                                    }
+                                )
+                            }}/>
+                            {errors.name && <span>This field is required</span>}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="danger" variant="light" onPress={onClose}>
+                            Close
+                            </Button>
+                            <Button color="primary" type="submit">
+                            Catch
+                            </Button>
+                        </ModalFooter>
+                    </form>
+                    </>
+                )}
+                </ModalContent>
+            </Modal>
             </div>
         </div>
     )
