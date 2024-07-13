@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Axios from '../../axios/axios';
 import { toast } from 'react-toastify';
@@ -97,42 +97,44 @@ const Result = (category:any) =>{
     }
 
     return(
-        <div className={"h-screen py-[12px] sm-p-[16px] max-w-[1280px] bg-[transparent] mx-auto"}>
-            <BackButton/>
-                {
-                    content ?
-                    <InfiniteScroll
-                        dataLength={content.data.results.length}
-                        next={fetchData}
-                        hasMore={hasMore}
-                        loader
-                        >
-                        <div className={"grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4"}>
-                        {
-                            content ?
-                                content.data.results.map((res:any, idx:number) => {
-                                    return(
-                                        searchParams.get('category') === 'pokemon' ?
-                                            <div className={"card-poke w-full blue-poke text-white flex-row items-center justify-center heading"} key={idx} onClick={() => goToPokemon(res.name)}>
-                                                <Image
-                                                width="100" height="100" 
-                                                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${res.url.split('/')[6]}.png`}
-                                                alt={res.name} />
-                                                {res.name.toUpperCase()}
-                                            </div>
-                                        :
-                                            <div className={"card-poke w-full blue-poke text-white mx-auto heading"} key={idx}>
-                                                {res.name.toUpperCase()}
-                                            </div>
-                                    )
-                                })
-                            : null
-                        }
-                        </div>
-                    </InfiniteScroll>
-                    : null
-                }
-        </div>
+        <Suspense>
+            <div className={"h-screen py-[12px] sm-p-[16px] max-w-[1280px] bg-[transparent] mx-auto"}>
+                <BackButton/>
+                    {
+                        content ?
+                        <InfiniteScroll
+                            dataLength={content.data.results.length}
+                            next={fetchData}
+                            hasMore={hasMore}
+                            loader
+                            >
+                            <div className={"grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4"}>
+                            {
+                                content ?
+                                    content.data.results.map((res:any, idx:number) => {
+                                        return(
+                                            searchParams.get('category') === 'pokemon' ?
+                                                <div className={"card-poke w-full blue-poke text-white flex-row items-center justify-center heading"} key={idx} onClick={() => goToPokemon(res.name)}>
+                                                    <Image
+                                                    width="100" height="100" 
+                                                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${res.url.split('/')[6]}.png`}
+                                                    alt={res.name} />
+                                                    {res.name.toUpperCase()}
+                                                </div>
+                                            :
+                                                <div className={"card-poke w-full blue-poke text-white mx-auto heading"} key={idx}>
+                                                    {res.name.toUpperCase()}
+                                                </div>
+                                        )
+                                    })
+                                : null
+                            }
+                            </div>
+                        </InfiniteScroll>
+                        : null
+                    }
+            </div>
+        </Suspense>
     )
 }
 
