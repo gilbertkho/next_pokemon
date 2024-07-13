@@ -51,10 +51,6 @@ function Detail () {
         setContent(result);
     },[]);
 
-    useEffect(() => {
-        console.log("selected", selectedPokemon);
-    },[selectedPokemon])
-
     const catchPokemon = () => {
         let getStore:any = localStorage.getItem("catchedPokemon");
         if(getStore && getStore.length > 0){
@@ -195,7 +191,7 @@ function Detail () {
                     <ModalHeader className="flex flex-col gap-1">Poke Bag</ModalHeader>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <ModalBody>
-                            <input {...register("name", { required: true })} className={"text-black"} defaultValue="" value={selectedPokemon.name}  onChange={(e) => {
+                            <input placeholder="Enter your pokemon name" {...register("name", { required: true })} className={"text-black"} defaultValue="" value={selectedPokemon.name}  onChange={(e) => {
                                 setSelectedPokemon(
                                     (prevState:any) => { 
                                         return{...prevState, 

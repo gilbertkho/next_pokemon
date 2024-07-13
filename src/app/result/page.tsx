@@ -116,6 +116,7 @@ const Result = (category:any) =>{
                                             <div className={"card-poke w-full blue-poke text-white flex-row items-center justify-center heading"} key={idx} onClick={() => goToPokemon(res.name)}>
                                                 <Image
                                                 width="100" height="100" 
+                                                className={"w-[130px] lg:w-[100px]"}
                                                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${res.url.split('/')[6]}.png`}
                                                 alt={res.name} />
                                                 {res.name.toUpperCase()}

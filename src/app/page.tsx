@@ -4,7 +4,7 @@ import DashboardButton from "./components/DashboardButton";
 
 export default function Home() {
   return (
-    <div className={"flex flex-col justify-center h-screen p-[16px] max-w-[1280px] bg-[white] mx-auto blue-poke"}>
+    <div className={"flex flex-col justify-center min-h-screen p-[16px] max-w-[1280px] bg-[white] mx-auto blue-poke"}>
       <div className={"text-center text-[#ffcb05]"}>
         <h1 className={"text-[48px] font-[700] m-[0]"}>
           PokéDex

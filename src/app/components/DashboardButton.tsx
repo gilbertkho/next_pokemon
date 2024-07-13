@@ -34,22 +34,22 @@ const DashboardButton = () => {
     return(
         <div className={"my-[16px]"}>
             <div className="grid grid-cols-12 grid-rows-3 gap-4">
-                <div className={"lg:col-span-7 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('pokemon')}>
+                <div className={"card-poke w-full blue-poke text-white lg:col-span-7 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('pokemon')}>
                     Pokémon
                 </div>
-                <div className={"lg:col-span-5 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('ability')}>
+                <div className={"card-poke w-full blue-poke text-white lg:col-span-5 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('ability')}>
                     Abilities
                 </div>
-                <div className={"lg:col-span-4 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('pokemon-species')}>
+                <div className={"card-poke w-full blue-poke text-white lg:col-span-4 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('pokemon-species')}>
                     Species
                 </div>
-                <div className={"lg:col-span-8 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('type')}>
+                <div className={"card-poke w-full blue-poke text-white lg:col-span-8 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('type')}>
                     Types
                 </div>
-                <div className={"lg:col-span-9 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('pokemon-color')}>
+                <div className={"card-poke w-full blue-poke text-white lg:col-span-9 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('pokemon-color')}>
                     Colors
                 </div>
-                <div className={"lg:col-span-3 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('nature')}>
+                <div className={"card-poke w-full blue-poke text-white lg:col-span-3 col-span-12 dashboard-btn bg-[#f5f5f5]"} onClick={() => getData('nature')}>
                     Natures
                 </div>
             </div>

@@ -24,10 +24,6 @@ const NavBar = () => {
         onOpen();
     }
 
-    useEffect(() => {
-        console.log(catchedPokemon)
-    },[catchedPokemon])
-
     return(
         <div className={"flex justify-between blue-poke rounded-[10px] p-[10px] mb-[12px]"}>
             <button onClick={() => router.back()}>
