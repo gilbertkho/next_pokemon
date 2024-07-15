@@ -42,6 +42,7 @@ Libarary Used:
 - nextUI
 - react-toastify
 - react-infinite-scroll-component
+- axios
 
 
 ## Learn More
