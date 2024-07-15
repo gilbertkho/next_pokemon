@@ -124,9 +124,9 @@ function Detail () {
                             }
                             <div className={"flex flex-col items-center justify-center lg:w-[50%] gap-[8px]"}>
                                 <Image className={"lg:max-h-[150px] max-h-[200px]"} width="200" height="200" src={content.data.sprites.other.dream_world.front_default} alt={content.data.name} />
-                                <span className={`px-[10px] py-[3px] text-white rounded-[30px]`} onClick={onOpen}>
+                                <Button className={`px-[10px] py-[3px] text-white rounded-[30px]`} onClick={onOpen}>
                                     Catch This Pokémon    
-                                </span>
+                                </Button>
                             </div>
                         </div>
                         {
